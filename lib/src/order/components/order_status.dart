@@ -57,8 +57,7 @@ class _StatusDot extends StatelessWidget {
   final Color? backGroundColor;
 
   const _StatusDot(
-      {super.key,
-      required this.isActive,
+      {required this.isActive,
       required this.title,
       this.backGroundColor});
 

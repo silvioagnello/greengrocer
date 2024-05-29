@@ -1,8 +1,26 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:greengrocer/src/auth/sign_in_screen.dart';
-import 'package:greengrocer/src/common/app_name_widget.dart';
+import 'package:get/get.dart';
+import 'package:greengrocer/src/common/widgets/app_name_widget.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 
+import '../pages_routes/app_pages.dart';
+
+// @override
+// void initState() {
+//   super.initState();
+//   Future.delayed(
+//     const Duration(seconds: 2),
+//     () {
+//       // Navigator.of(context).pushReplacement(MaterialPageRoute(
+//       //   builder: (context) => const SignInScreen(),
+//       // ));
+//
+//       Get.offNamed(PagesRoute.signInRoute);
+//     },
+//   );
+// }
+// @override
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -14,14 +32,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      const Duration(seconds: 2),
-      () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const SignInScreen(),
-        ));
-      },
-    );
+    if (kIsWeb) {
+      Future.delayed(
+        const Duration(seconds: 2),
+        () {
+          // Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //   builder: (context) => const SignInScreen(),
+          // ));
+
+          Get.offNamed(PagesRoute.signInRoute);
+        },
+      );
+      //Get.find<AuthController>().validateToken();
+    }
   }
 
   @override

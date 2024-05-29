@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:greengrocer/src/auth/sign_in_screen.dart';
-import 'package:greengrocer/src/common/custom_formfield.dart';
-import 'package:greengrocer/src/config/app_data.dart' as data;
+import 'package:get/get.dart';
+import 'package:greengrocer/src/auth/controllers/auth_controller.dart';
+import 'package:greengrocer/src/config/app_data.dart' as api_data;
+
+import '../common/widgets/custom_formfield.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -11,6 +13,11 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final nameController = TextEditingController();
+  final cpfController = TextEditingController();
+  final authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +27,15 @@ class _ProfileTabState extends State<ProfileTab> {
           // BOTÃO SAIR
           IconButton(
             onPressed: () {
+              authController.signOut();
               //Navigator.of(context).pop();
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SignInScreen(),
-                  ));
-              // SystemNavigator.pop();
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => SignInScreen(),
+              //   ),
+              // );
+              // // SystemNavigator.pop();
             },
             icon: const Icon(Icons.logout),
           )
@@ -40,26 +49,30 @@ class _ProfileTabState extends State<ProfileTab> {
             icon: Icons.email,
             label: 'Email',
             readOnly: true,
-            initialValue: data.user.email,
+            initialValue: api_data.user.email,
+            controller: emailController,
           ),
           CustomTextFormField(
             icon: Icons.person,
             label: 'Nome',
-            initialValue: data.user.name,
+            initialValue: api_data.user.name,
             readOnly: true,
+            controller: nameController,
           ),
           CustomTextFormField(
             icon: Icons.phone,
             label: 'Celular',
-            initialValue: data.user.phone,
+            initialValue: api_data.user.phone,
             readOnly: true,
+            controller: phoneController,
           ),
           CustomTextFormField(
             icon: Icons.file_copy,
             label: 'CPF',
-            initialValue: data.user.cpf,
+            initialValue: api_data.user.cpf,
             isSecret: true,
             readOnly: true,
+            controller: cpfController,
           ),
           SizedBox(
             height: 45,
@@ -100,13 +113,17 @@ class _ProfileTabState extends State<ProfileTab> {
                     isSecret: true,
                   ),
                   const CustomTextFormField(
-                      isSecret: true,
-                      icon: Icons.lock_outline,
-                      label: 'Nova senha'),
+                    isSecret: true,
+                    icon: Icons.lock_outline,
+                    label: 'Nova senha',
+                    //controller: newpassController,
+                  ),
                   const CustomTextFormField(
-                      isSecret: true,
-                      icon: Icons.lock_outline,
-                      label: 'Corfirme nova senha'),
+                    isSecret: true,
+                    icon: Icons.lock_outline,
+                    label: 'Corfirme nova senha',
+                    //controller: checkController,
+                  ),
                   ElevatedButton(
                       onPressed: () {}, child: const Text('Atualizar'))
                 ],

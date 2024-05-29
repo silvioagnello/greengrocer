@@ -1,10 +1,10 @@
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:greengrocer/src/base/home/components/item_tile.dart';
-import 'package:greengrocer/src/common/custom_shimmer.dart';
+import 'package:greengrocer/src/common/widgets/custom_shimmer.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 
-import '../../common/app_name_widget.dart';
+import '../../common/widgets/app_name_widget.dart';
 import '../../config/app_data.dart' as data;
 import 'components/category_tile.dart';
 
@@ -56,7 +56,7 @@ class _HomeTabState extends State<HomeTab> {
         appBar: AppBar(
           backgroundColor: CustomColors.customSwatchColor,
           actions: [
-            // ICON CART + BADGE
+            // ICON CARRINHO + BADGE
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: AddToCartIcon(
@@ -80,7 +80,7 @@ class _HomeTabState extends State<HomeTab> {
         ),
         body: Column(
           children: [
-            // Campo de Pesquisa
+            // CAMPO DE PESQUISA
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: TextFormField(
@@ -101,7 +101,7 @@ class _HomeTabState extends State<HomeTab> {
                         borderRadius: BorderRadius.circular(50))),
               ),
             ),
-            // Lista de CATEGORIAS
+            // LISTA DE CATEGORIAS
             Container(
               height: 40,
               padding: const EdgeInsets.only(left: 25),
@@ -137,7 +137,7 @@ class _HomeTabState extends State<HomeTab> {
                               )),
                     ),
             ),
-            // GridView ITEMS
+            // GRIDVIEW ITEMS
             Expanded(
               child: !isLoading
                   ? GridView.builder(
