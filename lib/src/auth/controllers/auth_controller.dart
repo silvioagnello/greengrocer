@@ -79,4 +79,8 @@ class AuthController extends GetxController {
       utilsService.myToast(msg: messa, isError: true);
     });
   }
+
+  Future<void> resetPassword(String email) async {
+    await authRepository.resetPassword(email);
+  }
 }

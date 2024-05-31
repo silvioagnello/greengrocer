@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:greengrocer/src/cart/components/cart_tile.dart';
-import 'package:greengrocer/src/cart/models/cart_item_model.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:greengrocer/src/cart/controllers/cart_controller.dart';
 import 'package:greengrocer/src/config/app_data.dart' as data;
 import 'package:greengrocer/src/config/custom_colors.dart';
 
-import '../common/widgets/payment_dialog.dart';
-import '../services/utils_service.dart';
+import '../../common/widgets/payment_dialog.dart';
+import '../../services/utils_service.dart';
+import 'components/cart_tile.dart';
 
 class CartTab extends StatefulWidget {
   const CartTab({super.key});
@@ -17,13 +18,13 @@ class CartTab extends StatefulWidget {
 class _CartTabState extends State<CartTab> {
   final utilsService = UtilsService();
 
-  void removeItemfromCart(CartItemModel cartItem) {
-    setState(() {
-      data.cartItems.remove(cartItem);
-      utilsService.myToast(
-          context: context, msg: 'Item: ${cartItem.item.itemName} removido');
-    });
-  }
+  // void removeItemfromCart(CartItemModel cartItem) {
+  //   setState(() {
+  //     data.cartItems.remove(cartItem);
+  //     utilsService.myToast(
+  //         context: context, msg: 'Item: ${cartItem.item.itemName} removido');
+  //   });
+  // }
 
   double cartTotalPrice() {
     double total = 0;
@@ -44,20 +45,25 @@ class _CartTabState extends State<CartTab> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemBuilder: (_, index) {
-                return CartTile(
-                    cartItem: data.cartItems[index],
-                    updatedQuantity: (qtd) {
-                      if (qtd == 0) {
-                        removeItemfromCart(data.cartItems[index]);
-                      } else {
-                        setState(() => data.cartItems[index].quantity = qtd);
-                      }
-                    });
-              },
-              itemCount: data.cartItems.length,
-            ),
+            child: GetBuilder<CartController>(builder: (controller) {
+              return ListView.builder(
+                  itemBuilder: (_, index) {
+                    return CartTile(
+                        cartItem: controller
+                            .cartItems[index], //data.cartItems[index],
+                        updatedQuantity: (qtd) {
+                          if (qtd == 0) {
+                            //removeItemfromCart(data.cartItems[index]);
+                          } else {
+                            setState(
+                                () => data.cartItems[index].quantity = qtd);
+                          }
+                        });
+                  },
+                  itemCount:
+                      controller.cartItems.length //data.cartItems.length,
+                  );
+            }),
           ),
           const SizedBox(height: 20),
           // DADOS FINAIS

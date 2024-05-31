@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:greengrocer/src/auth/controllers/auth_controller.dart';
-import 'package:greengrocer/src/config/app_data.dart' as api_data;
 
 import '../common/widgets/custom_formfield.dart';
 
@@ -49,27 +48,27 @@ class _ProfileTabState extends State<ProfileTab> {
             icon: Icons.email,
             label: 'Email',
             readOnly: true,
-            initialValue: api_data.user.email,
+            //initialValue: api_data.user.email,
             controller: emailController,
           ),
           CustomTextFormField(
             icon: Icons.person,
             label: 'Nome',
-            initialValue: api_data.user.name,
+            //initialValue: api_data.user.name,
             readOnly: true,
             controller: nameController,
           ),
           CustomTextFormField(
             icon: Icons.phone,
             label: 'Celular',
-            initialValue: api_data.user.phone,
+            //initialValue: api_data.user.phone,
             readOnly: true,
             controller: phoneController,
           ),
           CustomTextFormField(
             icon: Icons.file_copy,
             label: 'CPF',
-            initialValue: api_data.user.cpf,
+            //initialValue: api_data.user.cpf,
             isSecret: true,
             readOnly: true,
             controller: cpfController,

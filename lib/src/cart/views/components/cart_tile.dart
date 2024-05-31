@@ -3,7 +3,7 @@ import 'package:greengrocer/src/cart/models/cart_item_model.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/services/utils_service.dart';
 
-import '../../common/widgets/quantity_widget.dart';
+import '../../../common/widgets/quantity_widget.dart';
 
 class CartTile extends StatefulWidget {
   final CartItemModel cartItem;
@@ -30,7 +30,7 @@ class _CartTileState extends State<CartTile> {
           dense: false,
           // IMAGEM
           leading:
-              Image.asset(widget.cartItem.item.imgUrl, height: 60, width: 60),
+              Image.network(widget.cartItem.item.imgUrl, height: 60, width: 60),
           // TITULO
           title: Text(
             widget.cartItem.item.itemName,

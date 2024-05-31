@@ -5,9 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
+import 'package:greengrocer/src/auth/views/components/forgot_password_dialog.dart';
 import 'package:greengrocer/src/common/widgets/app_name_widget.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/pages_routes/app_pages.dart';
+import 'package:greengrocer/src/services/utils_service.dart';
 import 'package:greengrocer/src/services/validators.dart';
 
 import '../../common/widgets/custom_formfield.dart';
@@ -15,10 +17,13 @@ import '../controllers/auth_controller.dart';
 
 class SignInScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+
   SignInScreen({super.key});
   final emailController =
       TextEditingController(text: 'greengrocerteste@gmail.com');
   final passwController = TextEditingController(text: 'senha123');
+
+  final utilsService = UtilsService();
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +139,20 @@ class SignInScreen extends StatelessWidget {
                       Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                final bool? result = await showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return ForgotPasswordDialog(
+                                        email: emailController.text);
+                                  },
+                                );
+                                if (result ?? false) {
+                                  utilsService.myToast(
+                                      msg:
+                                          'Um link de recuperação foi enviado');
+                                }
+                              },
                               child: Text(
                                 'Esqueci a senha',
                                 style: TextStyle(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:greengrocer/src/base/controllers/navigator_controller.dart';
 import 'package:greengrocer/src/base/models/item_model.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/services/utils_service.dart';
@@ -18,6 +20,7 @@ class _ProductScreenState extends State<ProductScreen> {
   final UtilsService utilsService = UtilsService();
 
   int cartItemQuantity = 1;
+  final navigatorController = Get.find<NavigatorController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class _ProductScreenState extends State<ProductScreen> {
               Expanded(
                 child: Hero(
                   tag: widget.item.imgUrl,
-                  child: Image.asset(widget.item.imgUrl),
+                  child: Image.network(widget.item.imgUrl),
                 ),
               ),
               Expanded(
@@ -94,7 +97,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                         ),
                       ),
-                      // BOTÃO
+                      // BOTÃO Adicionar ao carrinho
                       SizedBox(
                         height: 45,
                         child: ElevatedButton.icon(
@@ -106,7 +109,11 @@ class _ProductScreenState extends State<ProductScreen> {
                               shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           )),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.back();
+                            navigatorController
+                                .navigatePageView(NavigationTabs.cart);
+                          },
                           label: const Text(
                             'Adicionar ao carrinho',
                             style: TextStyle(
