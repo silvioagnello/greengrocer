@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
 import 'package:greengrocer/src/cart/controllers/cart_controller.dart';
 import 'package:greengrocer/src/config/app_data.dart' as data;
 import 'package:greengrocer/src/config/custom_colors.dart';
 
-import '../../common/widgets/payment_dialog.dart';
 import '../../services/utils_service.dart';
 import 'components/cart_tile.dart';
 
@@ -17,7 +16,7 @@ class CartTab extends StatefulWidget {
 
 class _CartTabState extends State<CartTab> {
   final utilsService = UtilsService();
-
+  final cartController = Get.find<CartController>();
   // void removeItemfromCart(CartItemModel cartItem) {
   //   setState(() {
   //     data.cartItems.remove(cartItem);
@@ -46,19 +45,32 @@ class _CartTabState extends State<CartTab> {
         children: [
           Expanded(
             child: GetBuilder<CartController>(builder: (controller) {
+              if (controller.cartItems.isEmpty) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.remove_shopping_cart,
+                      size: 40,
+                      color: CustomColors.customContrastColor,
+                    ),
+                    const Text('Não há itens no carrinho')
+                  ],
+                );
+              }
               return ListView.builder(
                   itemBuilder: (_, index) {
                     return CartTile(
-                        cartItem: controller
-                            .cartItems[index], //data.cartItems[index],
-                        updatedQuantity: (qtd) {
-                          if (qtd == 0) {
-                            //removeItemfromCart(data.cartItems[index]);
-                          } else {
-                            setState(
-                                () => data.cartItems[index].quantity = qtd);
-                          }
-                        });
+                      cartItem:
+                          controller.cartItems[index], //data.cartItems[index],
+                      // updatedQuantity: (qtd) {
+                      //   if (qtd == 0) {
+                      //     //removeItemfromCart(data.cartItems[index]);
+                      //   } else {
+                      //     setState(() => data.cartItems[index].quantity = qtd);
+                      //   }
+                      // },
+                    );
                   },
                   itemCount:
                       controller.cartItems.length //data.cartItems.length,
@@ -87,41 +99,47 @@ class _CartTabState extends State<CartTab> {
                 //TOTAL GERAL
                 const Text('Total geral', style: TextStyle(fontSize: 12)),
                 // VALOR TOTAL EM REAIS
-                Text(utilsService.priceToCurrency(cartTotalPrice()),
-                    style: TextStyle(
-                        fontSize: 26,
-                        color: CustomColors.customSwatchColor,
-                        fontWeight: FontWeight.bold)),
+                GetBuilder<CartController>(builder: (controller) {
+                  return Text(
+                      utilsService.priceToCurrency(controller.cartTotalPrice()
+                          //  cartTotalPrice(),
+                          ),
+                      style: TextStyle(
+                          fontSize: 26,
+                          color: CustomColors.customSwatchColor,
+                          fontWeight: FontWeight.bold));
+                }),
                 // BOTÃO CONCLUIR PEDIDO
                 SizedBox(
                   height: 45,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.customSwatchColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
+                  child: GetBuilder<CartController>(builder: (controller) {
+                    return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: CustomColors.customSwatchColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18),
+                          ),
                         ),
-                      ),
-                      onPressed: () async {
-                        bool? result = await showOrderConfirmation();
-                        if (result ?? false) {
-                          if (!context.mounted) return;
-                          showDialog(
-                              context: context,
-                              builder: (_) =>
-                                  PaymentDialog(order: data.orders.first));
-                        } else {
-                          if (!context.mounted) return;
-                          utilsService.myToast(
-                              isError: true,
-                              msg: 'Pedido não confirmado',
-                              context: context);
-                        }
-                      },
-                      child: const Text(
-                        'Concluir pedido',
-                        style: TextStyle(fontSize: 18),
-                      )),
+                        onPressed: controller.isCheckoutLoading
+                            ? null
+                            : () async {
+                                bool? result = await showOrderConfirmation();
+                                if (result ?? false) {
+                                  if (!context.mounted) return;
+                                  cartController.checkoutCart();
+                                } else {
+                                  utilsService.myToast(
+                                      msg: 'Pedido não confirmado');
+                                }
+                              },
+                        //},
+                        child: controller.isCheckoutLoading
+                            ? const CircularProgressIndicator()
+                            : const Text(
+                                'Concluir pedido',
+                                style: TextStyle(fontSize: 18),
+                              ));
+                  }),
                 )
               ],
             ),

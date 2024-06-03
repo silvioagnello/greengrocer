@@ -1,7 +1,9 @@
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:greengrocer/src/base/controllers/navigator_controller.dart';
 import 'package:greengrocer/src/base/home/controllers/home_controller.dart';
+import 'package:greengrocer/src/cart/controllers/cart_controller.dart';
 import 'package:greengrocer/src/common/widgets/custom_shimmer.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 
@@ -22,6 +24,7 @@ class _HomeTabState extends State<HomeTab> {
   late Function(GlobalKey) runAddToCardAnimation;
   // bool isLoading = true;
   final searchController = TextEditingController();
+  final navigatorController = Get.find<NavigatorController>();
 
   void itemSelectedCartAnimations(GlobalKey gkImage) {
     runAddToCardAnimation(gkImage);
@@ -62,19 +65,31 @@ class _HomeTabState extends State<HomeTab> {
             // ICON CARRINHO + BADGE
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
-              child: AddToCartIcon(
-                badgeOptions: const BadgeOptions(
-                  active: true,
-                  backgroundColor: Colors.red,
-                ),
-                key: cartKey,
-                icon: const Icon(
-                  size: 35,
-                  Icons.shopping_cart,
-                  color: Colors.white60,
-                ),
-              ),
-            )
+              child: GetBuilder<CartController>(builder: (controller) {
+                return Badge(
+                  smallSize: 40,
+                  label: Text(controller.cartItems.length.toString()),
+                  child: AddToCartIcon(
+                    badgeOptions: const BadgeOptions(
+                      active: false,
+                      backgroundColor: Colors.red,
+                    ),
+                    key: cartKey,
+                    icon: GestureDetector(
+                      onTap: () {
+                        navigatorController
+                            .navigatePageView(NavigationTabs.cart);
+                      },
+                      child: const Icon(
+                        size: 35,
+                        Icons.shopping_cart,
+                        color: Colors.white60,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
           ],
           elevation: 0,
           //backgroundColor: Colors.transparent,

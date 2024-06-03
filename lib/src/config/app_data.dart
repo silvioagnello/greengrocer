@@ -88,51 +88,51 @@ UserModel user = UserModel(
   password: '',
 );
 
+// Pedido 01
 List<OrderModel> orders = [
-  // Pedido 01
-  OrderModel(
-    copyAndPaste: 'q1w2e3r4t5y6',
-    createdDateTime: DateTime.parse(
-      '2022-06-08 10:00:10.458',
-    ),
-    overdueDateTime: DateTime.parse(
-      '2022-06-08 11:00:10.458',
-    ),
-    id: 'asd6a54da6s2d1',
-    status: 'pending_payment',
-    total: 11.0,
-    items: [
-      CartItemModel(
-        id: '1',
-        item: apple,
-        quantity: 2,
-      ),
-      CartItemModel(
-        id: '1',
-        item: mango,
-        quantity: 2,
-      ),
-    ],
-  ),
-
-  // Pedido 02
-  OrderModel(
-    copyAndPaste: 'q1w2e3r4t5y6',
-    createdDateTime: DateTime.parse(
-      '2024-06-08 10:00:10.458',
-    ),
-    overdueDateTime: DateTime.parse(
-      '2024-06-08 11:00:10.458',
-    ),
-    id: 'a65s4d6a2s1d6a5s',
-    status: 'delivered',
-    total: 11.5,
-    items: [
-      CartItemModel(
-        id: '1',
-        item: guava,
-        quantity: 1,
-      ),
-    ],
-  ),
+  // OrderModel(
+  //   id: 'asd6a54da6s2d1',
+  //   createdDateTime: DateTime.parse(
+  //     '2022-06-08 10:00:10.458',
+  //   ),
+  //   overdueDateTime: DateTime.parse(
+  //     '2022-06-08 11:00:10.458',
+  //   ),
+  //   items: [
+  //     CartItemModel(
+  //       id: '1',
+  //       item: apple,
+  //       quantity: 2,
+  //     ),
+  //     CartItemModel(
+  //       id: '1',
+  //       item: mango,
+  //       quantity: 2,
+  //     ),
+  //   ],
+  //   status: 'pending_payment',
+  //   copyAndPaste: 'q1w2e3r4t5y6',
+  //   total: 11.0,
+  // ),
+  //
+  // // Pedido 02
+  // OrderModel(
+  //   copyAndPaste: 'q1w2e3r4t5y6',
+  //   createdDateTime: DateTime.parse(
+  //     '2024-06-08 10:00:10.458',
+  //   ),
+  //   overdueDateTime: DateTime.parse(
+  //     '2024-06-08 11:00:10.458',
+  //   ),
+  //   id: 'a65s4d6a2s1d6a5s',
+  //   status: 'delivered',
+  //   total: 11.5,
+  //   items: [
+  //     CartItemModel(
+  //       id: '1',
+  //       item: guava,
+  //       quantity: 1,
+  //     ),
+  //   ],
+  // ),
 ];

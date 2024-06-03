@@ -47,12 +47,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18.0),
       child: TextFormField(
+        controller: widget.initialValue != null ? null : widget.controller,
         key: widget.formFieldKey,
         readOnly: widget.readOnly,
-        initialValue: widget.initialValue,
+        initialValue: widget.controller != null ? null : widget.initialValue,
         inputFormatters: widget.inputFormatters,
         obscureText: isObscure,
-        controller: widget.controller,
         validator: widget.validator,
         onSaved: widget.onSaved,
         keyboardType: widget.textInputType,

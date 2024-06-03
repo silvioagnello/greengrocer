@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:greengrocer/src/auth/repositories/auth_errors.dart'
-    as auth_Errors;
+    as auth_errors;
 import 'package:greengrocer/src/auth/results/auth_result.dart';
 import 'package:greengrocer/src/common/constants/endpoints.dart';
 import 'package:greengrocer/src/profile/models/user_model.dart';
@@ -25,8 +25,27 @@ class AuthRepository {
       final user = UserModel.fromMap(result['result']);
       return AuthResult.sucess(user);
     } else {
-      return AuthResult.error(auth_Errors.authErrorsString(result['error']));
+      return AuthResult.error(auth_errors.authErrorsString(result['error']));
     }
+  }
+
+  Future<bool> changePassword({
+    required String email,
+    required String currentPassword,
+    required String newPassword,
+    required String token,
+  }) async {
+    final result = await _httpManager.restRequest(
+      url: Endpoints.changePassword,
+      method: HttpMethods.post,
+      headers: {'X-Parse-Session-Token': token},
+      body: {
+        "email": email,
+        "currentPassword": currentPassword,
+        "newPassword": newPassword,
+      },
+    );
+    return result['error'] == null;
   }
 
   Future<AuthResult> signUp(UserModel user) async {

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:greengrocer/src/base/controllers/navigator_controller.dart';
-import 'package:greengrocer/src/base/models/item_model.dart';
+import 'package:greengrocer/src/cart/controllers/cart_controller.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/services/utils_service.dart';
 
 import '../common/widgets/quantity_widget.dart';
+import 'models/item_model.dart';
 
 class ProductScreen extends StatefulWidget {
-  final ItemModel item;
+  ProductScreen({super.key});
 
-  const ProductScreen({super.key, required this.item});
-
+  final ItemModel item = Get.arguments;
   @override
   State<ProductScreen> createState() => _ProductScreenState();
 }
@@ -20,7 +20,9 @@ class _ProductScreenState extends State<ProductScreen> {
   final UtilsService utilsService = UtilsService();
 
   int cartItemQuantity = 1;
+
   final navigatorController = Get.find<NavigatorController>();
+  final cartController = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
               ),
               Expanded(
-                // CAIXA
+                // CAIXA BRANCA
                 child: Container(
                   padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
@@ -111,6 +113,8 @@ class _ProductScreenState extends State<ProductScreen> {
                           )),
                           onPressed: () {
                             Get.back();
+                            cartController.addItemToCart(
+                                item: widget.item, quantity: cartItemQuantity);
                             navigatorController
                                 .navigatePageView(NavigationTabs.cart);
                           },
@@ -127,6 +131,7 @@ class _ProductScreenState extends State<ProductScreen> {
               )
             ],
           ),
+          // BOTÃO VOLTAR
           Positioned(
             left: 10,
             top: 0,
